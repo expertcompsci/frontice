@@ -1,0 +1,59 @@
+<form #employerForm="ngForm" (ngSubmit)="save(employerForm.value)">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Edit Employer</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <div *ngIf="employer" class="form-container" fxLayout="column" fxLayoutAlign="space-around stretch">
+      <input type="hidden" name="id" [(ngModel)]="employer.id">
+
+      <mat-form-field>
+        <mat-hint *ngIf="mustBeUniqueError" class="errorHint">
+          That Company Name is already taken. Enter a unique Company Name.
+        </mat-hint>
+        <input matInput placeholder="Company Name" [(ngModel)]="employer.companyName" #companyName="ngModel" required
+          name="companyName" minlength="3">
+        <mat-error *ngIf="companyName.hasError('required')">
+          Company Name is required.
+        </mat-error>
+        <mat-error *ngIf="companyName.hasError('minlength')">
+          Company Name must have more than 2 characters
+        </mat-error>
+      </mat-form-field>
+
+      <mat-checkbox [(ngModel)]="employer.isPrinciple" name="isPrinciple">
+        Is this a principle employer (e.g. not a recruiter)?
+      </mat-checkbox>
+
+      <mat-form-field>
+        <mat-hint *ngIf="mustBeUrlError" class="errorHint">
+          The URL must be of the form: http://www.example.com/path
+        </mat-hint>
+
+        <input matInput placeholder="URL" [(ngModel)]="employer.siteUrl" name="siteUrl">
+      </mat-form-field>
+
+      <mat-checkbox [(ngModel)]="employer.employsIt" name="employsIt">
+        Do they employ IT workers regularly?
+      </mat-checkbox>
+
+      <mat-form-field>
+        <textarea matInput placeholder="Notes" [(ngModel)]="employer.notes" name="notes" matTextareaAutosize
+          matAutosizeMinRows="2" matAutosizeMaxRows="7"></textarea>
+      </mat-form-field>
+
+      <mat-card-actions>
+        <!-- [disabled]="!employerForm.form.valid" -->
+        <button mat-raised-button color="primary" type="submit" [disabled]="employerForm.invalid">Save
+        </button>
+        <button mat-raised-button color="secondary" (click)="remove(employer.id)" type="button" id="delete">Delete
+        </button>
+        <a mat-button routerLink="/employer-list" id="cancelAnchor">Cancel</a>
+      </mat-card-actions>
+    </div>
+    <mat-card-footer>
+      <mat-divider></mat-divider>
+    </mat-card-footer>
+  </mat-card>
+</form>

@@ -1,0 +1,52 @@
+<mat-card *ngIf="overview">
+    <div *ngIf="dbStatus">
+      <mat-card-subtitle *ngIf=isTestDb><h1 style="color: red">Warning: Test Database ({{dbStatus.databaseName}}) Is Currently Being Accessed</h1></mat-card-subtitle>
+      <mat-card-subtitle *ngIf=!isTestDb>Production database in use</mat-card-subtitle>
+    </div>
+   <mat-card-title>The Last Five Days</mat-card-title>
+  <mat-card-subtitle>In the last five days the following have happened:</mat-card-subtitle>
+  <mat-list>
+    <mat-list-item>
+      {{overview.submissionsLastFiveDays}} resume submissions:
+    </mat-list-item>
+    <mat-list *ngIf="latestSubmissions">
+        <mat-list-item *ngFor="let row of latestSubmissions">
+          {{row.position}} at {{row.companyName}}
+        </mat-list-item>
+    </mat-list>
+       <mat-list-item>
+      {{overview.jobAdsPostedLastFiveDays}} job ads captured.
+    </mat-list-item>
+  </mat-list>
+</mat-card>
+<mat-card *ngIf="overview">
+  <mat-card-title>All Time Totals</mat-card-title>
+  <mat-card-subtitle>Just look at the growth. There are now:</mat-card-subtitle>
+  <mat-list>
+    <mat-list-item *ngIf="overview.latestResumeAddedDatetime">
+      On {{resumeAdded.format("YYYY-MM-DD HH:mm:ss")}} ({{resumeAdded.fromNow()}}) the latest resume was added.
+    </mat-list-item>
+    <mat-list-item>
+      There are now a total of {{overview.resumeCount}} resumes.
+    </mat-list-item>
+    <mat-list-item *ngIf="overview.latestLetterAddedDatetime">
+      On {{letterAdded.format("YYYY-MM-DD HH:mm:ss")}} ({{resumeAdded.fromNow()}}) the latest cover letter was added.
+    </mat-list-item>
+    <mat-list-item>
+      There are now {{overview.letterCount}} cover letters.
+    </mat-list-item>
+    <mat-list-item *ngIf="overview.latestLetterAddedDatetime">
+      On {{letterAdded.format("YYYY-MM-DD HH:mm:ss")}} ({{resumeAdded.fromNow()}}) a cover letter was added.
+    </mat-list-item>
+    <mat-list-item>
+      {{overview.employerCount}} employers listed.
+    </mat-list-item>
+  </mat-list>
+</mat-card>
+<mat-card>
+  <mat-list *ngFor="let row of latestSummary">
+    <mat-list-item>
+      A {{row.operation}} was made to a {{row.entity}} with the name {{row.standardName}} on {{row.eventDateTime}}
+    </mat-list-item>
+  </mat-list>
+</mat-card>

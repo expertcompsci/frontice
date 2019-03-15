@@ -1,0 +1,51 @@
+<form #resumeForm="ngForm" (ngSubmit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Edit Letter</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <div class="form-container" fxLayout="column" fxLayoutAlign="space-around stretch">
+      <input type="hidden" name="id" [(ngModel)]="letter.id">
+
+      <mat-form-field>
+        <input matInput placeholder="description/Title" [(ngModel)]="letter.description" #description="ngModel"
+          minLength="3" required name="description">
+        <mat-error *ngIf="description.hasError('minlength')">
+          Description must have more than 2 characters
+        </mat-error>
+        <mat-error *ngIf="description.hasError('required')">
+          Description is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="button" id="chooseFileBtn" (click)="chooseFile()">Choose
+          File...</button>
+        <input type="file" #fileInputEdit (change)="fileChangeEvent($event)" style="display:none" accept=".doc,.docx,.odt,.ott,.txt,.pdf">
+      </mat-card-actions>
+
+      <mat-card>
+        <mat-card-subtitle>File Name</mat-card-subtitle>
+        <mat-card-content *ngIf="fileDate">
+          <span name="filename">{{file}} <p>Last Modified on {{fileDate.format('YYYY-MM-DD HH:mm:ss')}}
+              ({{fileDate.fromNow()}})</span>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-form-field>
+        <textarea matInput placeholder="Notes" [(ngModel)]="letter.notes" name="notes" matTextareaAutosize
+          matAutosizeMinRows="2" matAutosizeMaxRows="7"></textarea>
+      </mat-form-field>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit" [disabled]="resumeForm.invalid">Save</button>
+        <button mat-raised-button (click)="openDialog($event)">Delete All Revisions</button>
+        <a mat-button routerLink="/letter-list">Cancel</a>
+      </mat-card-actions>
+    </div>
+    <mat-card-footer>
+      <mat-divider></mat-divider>
+    </mat-card-footer>
+  </mat-card>
+</form>

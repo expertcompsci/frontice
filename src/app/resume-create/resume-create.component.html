@@ -1,0 +1,51 @@
+<form #resumeForm="ngForm" (ngSubmit)="save(resumeForm.value)">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Upload Resume</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <div *ngIf="resume" class="form-container" fxLayout="column" fxLayoutAlign="space-around stretch">
+      <input type="hidden" name="id" [(ngModel)]="resume.id">
+
+      <mat-form-field>
+        <input matInput placeholder="Purpose/Title" [(ngModel)]="resume.purpose" #purpose="ngModel" minLength="3"
+          required name="purpose">
+        <mat-error *ngIf="purpose.hasError('minlength')">
+          Purpose/Title must have more than 2 characters
+        </mat-error>
+        <mat-error *ngIf="purpose.hasError('required')">
+          Title/Position is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="button" id="chooseFileBtn" (click)="chooseFile()">Choose
+          File...</button>
+        <input type="file" #fileInput (change)="fileChangeEvent($event)" style="display:none" accept=".doc,.docx,.odt,.ott,.txt,.pdf">
+      </mat-card-actions>
+
+      <mat-card>
+        <mat-card-subtitle>File Name</mat-card-subtitle>
+        <mat-card-content *ngIf="fileChosen">
+          <span name="filename">{{file}} <p>Last Modified on {{fileDate.format('YYYY-MM-DD HH:mm:ss')}}
+              ({{fileDate.fromNow()}})</span>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-form-field>
+        <textarea matInput placeholder="Notes" [(ngModel)]="resume.notes" name="notes" matTextareaAutosize
+          matAutosizeMinRows="2" matAutosizeMaxRows="7"></textarea>
+      </mat-form-field>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit" [disabled]="resumeForm.invalid">Save
+        </button>
+        <a mat-button routerLink="/resume-list">Cancel</a>
+      </mat-card-actions>
+    </div>
+    <mat-card-footer>
+      <mat-divider></mat-divider>
+    </mat-card-footer>
+  </mat-card>
+</form>

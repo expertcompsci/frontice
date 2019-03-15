@@ -1,0 +1,143 @@
+<form #submissionForm="ngForm" (ngSubmit)="save(submissionForm.value)">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Enter Submission</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <div *ngIf="submission" class="form-container" fxLayout="column" fxLayoutAlign="space-around stretch">
+      <input type="hidden" name="id" [(ngModel)]="submission.id">
+
+      <mat-form-field>
+        <mat-label>
+          Enter Position Applied For
+        </mat-label>
+        <input matInput placeholder="Position" [(ngModel)]="submission.position" #position="ngModel" required name="position"
+          minlength="3">
+        <mat-error *ngIf="position.hasError('required')">
+          Position is required.
+        </mat-error>
+        <mat-error *ngIf="position.hasError('minlength')">
+          Position must have more than 2 characters
+        </mat-error>
+      </mat-form-field>
+
+      <mat-checkbox [(ngModel)]="submission.isRejected" name="isRejected">
+        Has this submission been rejected?
+      </mat-checkbox>
+
+      <mat-card>
+        <mat-card-title>
+          Contact Information:
+        </mat-card-title>
+        <mat-form-field>
+          <input matInput placeholder="Contact Title/Position" [(ngModel)]="submission.contactPosition" name="contactPosition">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Contact First Name" [(ngModel)]="submission.contactFirst" name="contactFirst">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Contact Last Name" [(ngModel)]="submission.contactLast" name="contactLast">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Contact Initial" [(ngModel)]="submission.contactInitial" name="contactInitial">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Contact Prefix" [(ngModel)]="submission.contactPrefix" name="contactPrefix">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Contact Email" [(ngModel)]="submission.contactEmail" name="contactEmail">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Contact Phone" [(ngModel)]="submission.contactPhone" name="contactPhone">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Contact Web Site/Page" [(ngModel)]="submission.contactSite" name="contactSite">
+        </mat-form-field>
+      </mat-card>
+
+      <mat-form-field>
+        <mat-label>
+          Select A Job Ad
+        </mat-label>
+        <mat-select name="jobAd" [(value)]="jobAdId">
+          <mat-option [value]="null">
+            Select A Job Ad
+          </mat-option>
+          <mat-option *ngFor="let jobAd of jobAds" [value]="jobAd.id">
+            {{jobAd.title + ' - ' + jobAd.companyName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>
+          Select A Cover Letter
+        </mat-label>
+        <mat-select name="letter" [(value)]="letterId">
+          <mat-option [value]="null">
+            Select A Cover Letter
+          </mat-option>
+          <mat-option *ngFor="let letter of letters" [value]="letter.id">
+            {{letter.description}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>
+          Select An Employer
+        </mat-label>
+        <mat-select name="employer" [(value)]="employerId">
+          <mat-option *ngFor="let employer of employers" [value]="employer.id">
+            {{employer.companyName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>
+          Select A Resume
+        </mat-label>
+        <mat-select required name="resume" ngModel #resume="ngModel" [(value)]="resumeId">
+          <mat-option *ngFor="let resume of resumes" [value]="resume.id">
+            {{resume.purpose}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="resume.hasError('required')">
+          You must select a resume to submit.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-placeholder>Submitted Date Time</mat-placeholder>
+        <mat-datetimepicker-toggle matSuffix [for]="submittedDatetime"></mat-datetimepicker-toggle>
+        <mat-datetimepicker #submittedDatetime type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+        <input matInput [matDatetimepicker]="submittedDatetime" [(ngModel)]="jsSubmittedDatetime" required autocomplete="false"
+          name="submittedDatetime">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Notes" [(ngModel)]="submission.notes" name="notes" matTextareaAutosize
+          matAutosizeMinRows="2" matAutosizeMaxRows="7">
+      </mat-form-field>
+
+      <mat-card-actions>
+        <!-- [disabled]="!submissionForm.form.valid" -->
+        <button mat-raised-button color="primary" type="submit" [disabled]="submissionForm.invalid">Save
+        </button>
+        <a mat-button routerLink="/submission-list">Cancel</a>
+      </mat-card-actions>
+    </div>
+    <mat-card-footer>
+      <mat-divider></mat-divider>
+    </mat-card-footer>
+  </mat-card>
+</form>

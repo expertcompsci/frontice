@@ -1,0 +1,18 @@
+<button mat-button [matMenuTriggerFor]="jobSearch">Job Search</button>
+<mat-menu #jobSearch="matMenu">
+  <button mat-menu-item [matMenuTriggerFor]="employers">Employers</button>
+  <button mat-menu-item [matMenuTriggerFor]="jobAds">Job Ads</button>
+  <button mat-menu-item [matMenuTriggerFor]="submissions">Submissions</button>
+</mat-menu>
+<mat-menu #jobAds="matMenu">
+  <button mat-menu-item routerLink='/jobad-list'>List Job Ads</button>
+  <button mat-menu-item routerLink='/jobad-create'>New Job Ad</button>
+</mat-menu>
+<mat-menu #employers="matMenu">
+  <button mat-menu-item routerLink='/employer-list'>List Employers</button>
+  <button mat-menu-item routerLink='/employer-create'>New Employer</button>
+</mat-menu>
+<mat-menu #submissions="matMenu">
+  <button mat-menu-item routerLink='/submission-list'>List Submissions</button>
+  <button mat-menu-item routerLink='/submission-create'>Submit A Resume</button>
+</mat-menu>

@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-card-title>Submissions:</mat-card-title>
+  <mat-card-subtitle>
+    <mat-checkbox [(ngModel)]="showRejected" (change)="loadList()" name="showRejected">
+      Show rejected submissions?
+    </mat-checkbox>
+  </mat-card-subtitle>
+  <mat-table [dataSource]="dataSource" matSort>
+    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{displayedColumnHeaders[column]}}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let item">{{ item[column] }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns" (click)="goTo(row.id);"></mat-row>
+  </mat-table>
+  <mat-paginator #paginatorPos [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+  </mat-paginator>
+</mat-card>

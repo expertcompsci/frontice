@@ -1,0 +1,31 @@
+<mat-card>
+    <mat-card-title>
+      Letters:
+    </mat-card-title>
+    <mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Description (Revisions)</mat-header-cell>
+        <mat-cell *matCellDef="let letter">{{ letter.description }}</mat-cell>
+      </ng-container>
+      <!-- <ng-container matColumnDef="revisionCount">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Revisions</mat-header-cell>
+        <mat-cell *matCellDef="let letter">{{ letter.revisionCount }}</mat-cell>
+      </ng-container> -->
+      <ng-container matColumnDef="latest">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Latest</mat-header-cell>
+        <mat-cell *matCellDef="let letter">{{ letter.latest }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="extension">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>File Type</mat-header-cell>
+        <mat-cell *matCellDef="let letter">{{ letter.extension }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>Edit/Upload Revision</mat-header-cell>
+        <mat-cell *matCellDef="let letter"><button mat-raised-button color="primary" (click)="edit(letter.id)">Edit</button></mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns; let letter" (click)="goTo(letter.id)"></mat-row>
+    </mat-table>
+    <mat-paginator #paginatorPos [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+    </mat-paginator>
+  </mat-card>

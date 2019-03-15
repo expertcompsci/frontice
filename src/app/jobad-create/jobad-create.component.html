@@ -1,0 +1,84 @@
+<form #jobAdForm="ngForm" (ngSubmit)="save(jobAdForm.value)">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Enter Job Ad</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <div *ngIf="jobAd" class="form-container" fxLayout="column" fxLayoutAlign="space-around stretch">
+      <input type="hidden" name="id" [(ngModel)]="jobAd.id">
+
+      <mat-form-field>
+        <mat-label>
+          Enter Title/Position
+        </mat-label>
+        <input matInput placeholder="Job Ad Title" ngModel #title="ngModel" required name="title" minlength="3">
+        <mat-error *ngIf="title.hasError('required')">
+          Title/Position is required.
+        </mat-error>
+        <mat-error *ngIf="title.hasError('minlength')">
+          Title/Position must have more than 2 characters
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>
+          Select Employer
+        </mat-label>
+        <mat-select required name="employer" ngModel #employer="ngModel" [(value)]="employerId">
+          <mat-option *ngFor="let employer of employers" [value]="employer.id">
+            {{employer.companyName}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="employer.hasError('required')">
+          Employer is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-checkbox [checked]="isChecked" [(ngModel)]="jobAd.byEmail" name="byEmail">
+        By Email?
+      </mat-checkbox>
+
+      <mat-form-field>
+        <input matInput placeholder="Enter Source/Job Board" [matAutocomplete]="auto" ngModel #source="ngModel" name="source">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let jobBoard of jobBoards" [value]="jobBoard">
+            {{jobBoard}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Source URL" [(ngModel)]="jobAd.sourceUrl" name="sourceUrl">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-placeholder>Posted Date Time</mat-placeholder>
+        <mat-datetimepicker-toggle matSuffix [for]="postedDatetime"></mat-datetimepicker-toggle>
+        <mat-datetimepicker #postedDatetime  type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+        <input matInput [matDatetimepicker]="postedDatetime" [(ngModel)]="jsPostedDatetime" required autocomplete="false"
+          name="postedDatetime">
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput placeholder="Job Ad Content" [(ngModel)]="jobAd.adContent" required name="adContent"
+          matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="7"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput placeholder="Notes" [(ngModel)]="jobAd.notes" name="notes" matTextareaAutosize
+          matAutosizeMinRows="2" matAutosizeMaxRows="7"></textarea>
+      </mat-form-field>
+
+      <mat-card-actions>
+        <!-- [disabled]="!jobAdForm.form.valid" -->
+        <button mat-raised-button color="primary" type="submit" [disabled]="jobAdForm.invalid">Save
+        </button>
+        <a mat-button routerLink="/jobad-list">Cancel</a>
+      </mat-card-actions>
+    </div>
+    <mat-card-footer>
+      <mat-divider></mat-divider>
+    </mat-card-footer>
+  </mat-card>
+</form>

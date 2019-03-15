@@ -1,0 +1,11 @@
+<mat-card (click)="dismiss($event)">
+  <mat-card-header>
+    <h2>There was a problem:</h2>
+  </mat-card-header>
+<mat-list>
+  <mat-list-item *ngFor="let row of data">
+    {{row}}
+  </mat-list-item>
+</mat-list>
+Click anywhere to dismiss this message and try again.
+</mat-card>

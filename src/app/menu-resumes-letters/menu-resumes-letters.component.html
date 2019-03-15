@@ -1,0 +1,13 @@
+<button mat-button [matMenuTriggerFor]="resumesLetters">Resumes</button>
+<mat-menu #resumesLetters="matMenu">
+  <button mat-menu-item [matMenuTriggerFor]="resumes">Resumes</button>
+  <button mat-menu-item [matMenuTriggerFor]="letters">Cover Letters</button>
+</mat-menu>
+<mat-menu #resumes="matMenu">
+  <button mat-menu-item routerLink='/resume-list'>List Resumes</button>
+  <button mat-menu-item routerLink='/resume-create'>Upload A Resume</button>
+</mat-menu>
+<mat-menu #letters="matMenu">
+  <button mat-menu-item routerLink='/letter-list'>List Cover Letters</button>
+  <button mat-menu-item routerLink='/letter-create'>Upload A Cover Letter</button>
+</mat-menu>

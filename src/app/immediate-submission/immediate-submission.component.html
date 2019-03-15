@@ -1,0 +1,92 @@
+<form #submissionForm="ngForm" (ngSubmit)="save(submissionForm.value)">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Quick Submit</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <div *ngIf="resumes" class="form-container" fxLayout="column" fxLayoutAlign="space-around stretch">
+
+      <mat-form-field>
+        <mat-label>
+          Enter Title/Position
+        </mat-label>
+        <input matInput placeholder="Job Ad Title" ngModel #title="ngModel" required name="title" minlength="3">
+        <mat-error *ngIf="title.hasError('required')">
+          Title/Position is required.
+        </mat-error>
+        <mat-error *ngIf="title.hasError('minlength')">
+          Title/Position must have more than 2 characters
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-hint *ngIf="mustBeUniqueError" class="errorHint">
+          That Company Name is already taken. Enter a unique Company Name.
+        </mat-hint>
+        <mat-label>
+          Enter Company Name
+        </mat-label>
+        <input matInput placeholder="Company Name" ngModel #companyName="ngModel" required name="companyName"
+          minlength="3">
+        <mat-error *ngIf="companyName.hasError('required')">
+          Company Name is required.
+        </mat-error>
+        <mat-error *ngIf="companyName.hasError('minlength')">
+          Company Name must have more than 2 characters
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>
+          Select A Resume
+        </mat-label>
+        <mat-select required name="resume" ngModel #resume="ngModel" [(value)]="resumeId">
+          <mat-option *ngFor="let resume of resumes" [value]="resume.id">
+            {{resume.purpose}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="resume.hasError('required')">
+          You must select a resume to submit.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput placeholder="Job Ad Content" [(ngModel)]="adContent" required name="adContent"
+          matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="7"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Enter Source/Job Board" [matAutocomplete]="auto" ngModel #source="ngModel"
+          name="source">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let jobBoard of jobBoards" [value]="jobBoard">
+            {{jobBoard}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Source URL" [(ngModel)]="sourceUrl" name="sourceUrl">
+      </mat-form-field>
+
+      <!-- <mat-form-field>
+        <mat-placeholder>Posted Date Time</mat-placeholder>
+        <mat-datetimepicker-toggle matSuffix [for]="postedDatetime"></mat-datetimepicker-toggle>
+        <mat-datetimepicker #postedDatetime type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+        <input matInput [matDatetimepicker]="postedDatetime" [(ngModel)]="jsPostedDatetime" required
+          autocomplete="false" name="postedDatetime">
+      </mat-form-field> -->
+
+      <mat-card-actions>
+        <!-- [disabled]="!submissionForm.form.valid" -->
+        <button mat-raised-button color="primary" type="submit" [disabled]="submissionForm.invalid">Save
+        </button>
+        <a mat-button routerLink="/submission-list">Cancel</a>
+      </mat-card-actions>
+    </div>
+    <mat-card-footer>
+      <mat-divider></mat-divider>
+    </mat-card-footer>
+  </mat-card>
+</form>
